@@ -479,12 +479,12 @@ MonoBehaviour:
   biome4:
   - {fileID: 7580880004590107884, guid: b781962940a8e564dac1e072e1d4c126, type: 3}
   partIndex: 0
-  partsCount: 10
+  partsCount: 5
   biomeSize: 20
-  offset: 18
-  speed: 1
+  offset: 110
+  speed: 0.5
   startZ: 0
-  cutoffZ: -24
+  cutoffZ: -10
 --- !u!4 &929442003
 Transform:
   m_ObjectHideFlags: 0
@@ -761,6 +761,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 929442003}
     m_Modifications:
+    - target: {fileID: 6418140582787569379, guid: b781962940a8e564dac1e072e1d4c126,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -3955282482629499392, guid: 19ecc6c15498fbe49a02803a46a6d8d3,
+        type: 3}
+    - target: {fileID: 7580880003997384363, guid: b781962940a8e564dac1e072e1d4c126,
+        type: 3}
+      propertyPath: speed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7580880004590107884, guid: b781962940a8e564dac1e072e1d4c126,
         type: 3}
       propertyPath: m_RootOrder

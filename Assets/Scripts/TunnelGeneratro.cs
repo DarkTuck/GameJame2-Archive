@@ -39,6 +39,7 @@ public class TunnelGeneratro : MonoBehaviour
 
         latestPartIndex = partsCount - 1;
 
+        StartCoroutine(ReuseParts());
         StartCoroutine(Every1Meter());
     }
 
@@ -78,6 +79,30 @@ public class TunnelGeneratro : MonoBehaviour
             yield return new WaitForSeconds(1 / offset * speed);
         }
     }
+    IEnumerator ReuseParts()
+    {
+        while (true)
+        {
+            for (int i = 0; i < activeParts.Count; i++)
+            {
+                if (activeParts[i].position.z < cutoffZ)
+                {
+                    // Update active parts for chosen level
+                    for (int j = 0; j < activeParts[i].childCount; j++)
+                    {
+                        // Update mesh filter & mesh renderer material
+                        activeParts[i].GetChild(j).GetComponent<MeshFilter>().sharedMesh = GetCurrentBiomePart().GetChild(j).GetComponent<MeshFilter>().sharedMesh;
+                        activeParts[i].GetChild(j).GetComponent<MeshRenderer>().sharedMaterials = GetCurrentBiomePart().GetChild(j).GetComponent<MeshRenderer>().sharedMaterials;
 
+                    
+                    }
+                    activeParts[i].position = activeParts[latestPartIndex].position + new Vector3(0, 0, offset);
+                    latestPartIndex = i;
+                }
+            }
 
+            yield return new WaitForSeconds(1F / speed);
+        }
+
+    }
 }
