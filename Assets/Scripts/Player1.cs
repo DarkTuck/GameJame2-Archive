@@ -21,6 +21,5 @@ public class Player1 : MonoBehaviour
     void Update()
     {
         gameObject.transform.Rotate(0, 0, inputX * tiltAngle * Time.deltaTime);
-        transform.position= transform.position-new Vector3(0, 0,speed*Time.deltaTime);
     }
 }

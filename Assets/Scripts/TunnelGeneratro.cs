@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class TunnelGeneratro : MonoBehaviour
 {
-    [SerializeField] Transform[] tunnelPrefab;
-    [SerializeField] Transform[] biome1;
-    [SerializeField] Transform[] biome2;
-    [SerializeField] Transform[] biome3;
-    [SerializeField] Transform[] biome4;
     [SerializeField] int partIndex = 0; // currently change in runtime has no effect
     [SerializeField] int partsCount = 10;
     [SerializeField] int biomeSize = 20;
@@ -23,86 +18,40 @@ public class TunnelGeneratro : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Destroy template
-        for (int i = 0; i < transform.childCount; i++)
+        for(int i=0; i<12; i++)
         {
-            Destroy(transform.GetChild(i).gameObject);
+            activeParts.Add(ObjectPooler.Instance.GetRandoObject().transform);
+            activeParts[i].gameObject.SetActive(true);
+            activeParts[i].position = new Vector3(0, 0, offset * i);
         }
-
-        // Spawn initial tunnel parts
-        for (int i = 0; i < partsCount; i++)
-        {
-            Transform newObject = Instantiate(GetCurrentBiomePart(), new Vector3(0, 0, startZ + i * offset), Quaternion.identity);
-            newObject.parent = transform;
-            activeParts.Add(newObject);
-        }
-
-        latestPartIndex = partsCount - 1;
-
-        StartCoroutine(ReuseParts());
-        StartCoroutine(Every1Meter());
     }
 
-    Transform GetCurrentBiomePart()
-    {
-        Transform partTrans = biome1[0]; //default value
-        int variation = Random.Range(0, biome1.Length - 1);
-
-        switch (partIndex)
-        {
-            case 0:
-                partTrans = biome1[variation];
-                break;
-            case 1:
-                partTrans = biome2[variation];
-                break;
-            case 2:
-                partTrans = biome3[variation];
-                break;
-            case 3:
-                partTrans = biome4[variation];
-                break;
-        }
-        return partTrans;
-    }
+  
 
     // Update is called once per frame
     void Update()
     {
-        transform.position -= new Vector3(0, 0, offset * speed * Time.deltaTime);
-    }
-
-    IEnumerator Every1Meter()
-    {
-        while (true)
+        foreach (Transform activeSegment in activeParts)
         {
-            yield return new WaitForSeconds(1 / offset * speed);
+           activeSegment.position -= new Vector3(0, 0, offset * speed * Time.deltaTime);
         }
     }
-    IEnumerator ReuseParts()
+    void PlaceSegment()
     {
-        while (true)
-        {
-            for (int i = 0; i < activeParts.Count; i++)
-            {
-                if (activeParts[i].position.z < cutoffZ)
-                {
-                    // Update active parts for chosen level
-                    for (int j = 0; j < activeParts[i].childCount; j++)
-                    {
-                        // Update mesh filter & mesh renderer material
-                        activeParts[i].GetChild(j).GetComponent<MeshFilter>().sharedMesh = GetCurrentBiomePart().GetChild(j).GetComponent<MeshFilter>().sharedMesh;
-                        activeParts[i].GetChild(j).GetComponent<MeshRenderer>().sharedMaterials = GetCurrentBiomePart().GetChild(j).GetComponent<MeshRenderer>().sharedMaterials;
-
-                    
-                    }
-                    activeParts[i].position = activeParts[latestPartIndex].position + new Vector3(0, 0, offset);
-                    latestPartIndex = i;
-                }
-            }
-
-            yield return new WaitForSeconds(1F / speed);
-        }
 
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "tube")
+        {
+        Debug.Log(other.gameObject.name);
+        GameObject newSegment = ObjectPooler.Instance.GetRandoObject();
+        other.gameObject.SetActive(false);
+        newSegment.SetActive(true);
+        activeParts.Remove(other.gameObject.transform);
+        newSegment.transform.position = new Vector3(0, 0, offset ) + activeParts[activeParts.Count-1].position;
+        activeParts.Add(newSegment.transform);
+        }
+    }
+
 }
