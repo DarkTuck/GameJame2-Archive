@@ -472,15 +472,19 @@ MonoBehaviour:
   tunnelPrefab: []
   biome1:
   - {fileID: 7580880004590107884, guid: b781962940a8e564dac1e072e1d4c126, type: 3}
+  - {fileID: 6788620224685843794, guid: 5543fe7f5c9474c48a3484e694bbe1ad, type: 3}
   biome2:
-  - {fileID: 7580880004590107884, guid: b781962940a8e564dac1e072e1d4c126, type: 3}
+  - {fileID: 6788620224685843794, guid: 5543fe7f5c9474c48a3484e694bbe1ad, type: 3}
+  - {fileID: 6788620224685843794, guid: 5543fe7f5c9474c48a3484e694bbe1ad, type: 3}
   biome3:
   - {fileID: 7580880004590107884, guid: b781962940a8e564dac1e072e1d4c126, type: 3}
+  - {fileID: 6788620224685843794, guid: 5543fe7f5c9474c48a3484e694bbe1ad, type: 3}
   biome4:
-  - {fileID: 7580880004590107884, guid: b781962940a8e564dac1e072e1d4c126, type: 3}
-  partIndex: 0
+  - {fileID: 6788620224685843794, guid: 5543fe7f5c9474c48a3484e694bbe1ad, type: 3}
+  - {fileID: 6788620224685843794, guid: 5543fe7f5c9474c48a3484e694bbe1ad, type: 3}
+  partIndex: 1
   partsCount: 100
-  biomeSize: 20
+  biomeSize: 2
   offset: 110
   speed: 0.5
   startZ: 0
